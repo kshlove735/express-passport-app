@@ -4,6 +4,7 @@ const { default: mongoose } = require('mongoose');
 const passport = require('passport');
 const User = require('./models/users.model');
 const cookieSession = require('cookie-session');
+require("dotenv").config();
 // const { info } = require('console');
 
 const app = express();
@@ -46,7 +47,7 @@ app.set('view engine', 'ejs');
 
 
 // DB 연결
-mongoose.connect('mongodb+srv://kshlove735:Kkjj159159!!@cluster0.swh6vkh.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect(process.env.DB_URI)
     .then(() => console.log('mongodb connected'))
     .catch(err => console.log(err));
 
