@@ -6,14 +6,12 @@ const User = require('./models/users.model');
 const cookieSession = require('cookie-session');
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 require("dotenv").config();
-// const { info } = require('console');
 
 const app = express();
 
-const cookieEncryptionKey = ['key1', 'key2']
 app.use(cookieSession({
     name: 'cookie-session-name',
-    keys: cookieEncryptionKey
+    keys: [process.env.COOKIE_ENCRYPTION_KEY1, process.env.COOKIE_ENCRYPTION_KEY2]
 }))
 
 
@@ -81,7 +79,6 @@ app.post('/login', (req, res, next) => {
         if (err) return next(err);
 
         if (!user) return res.json({ msg: info });
-
         // ! 6
         // 세션 생성 및 req.user에 user 정보 설정
         req.logIn(user, function (err) {
@@ -106,7 +103,13 @@ app.post('/signup', async (req, res) => {
     }
 })
 
-const PORT = 4000;
+app.get('/auth/google', passport.authenticate('google'));
+app.get('/auth/google/callback', passport.authenticate('google', {
+    successReturnToOrRedirect: '/',
+    failureRedirect: '/login',
+}));
+
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Listening on ${PORT}...`);
 })
