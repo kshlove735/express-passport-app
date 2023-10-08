@@ -6,6 +6,8 @@ const User = require('./models/users.model');
 const cookieSession = require('cookie-session');
 const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 require("dotenv").config();
+const config = require('config');
+const serverConfig = config.get('server');
 
 const app = express();
 
@@ -109,7 +111,7 @@ app.get('/auth/google/callback', passport.authenticate('google', {
     failureRedirect: '/login',
 }));
 
-const PORT = process.env.PORT
+const PORT = serverConfig.port
 app.listen(PORT, () => {
     console.log(`Listening on ${PORT}...`);
 })
