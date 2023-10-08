@@ -4,6 +4,7 @@ const { default: mongoose } = require('mongoose');
 const passport = require('passport');
 const User = require('./models/users.model');
 const cookieSession = require('cookie-session');
+const { checkAuthenticated, checkNotAuthenticated } = require('../middlewares/auth');
 require("dotenv").config();
 // const { info } = require('console');
 
@@ -55,15 +56,15 @@ mongoose.connect(process.env.DB_URI)
 
 // 정적 파일 제공
 app.use('/static', express.static(path.join(__dirname, 'public')));
-app.get('/', (req, res) => {
+app.get('/', checkAuthenticated, (req, res) => {
     res.render('index');
 })
 
-app.get('/login', (req, res) => {
+app.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('login');
 })
 
-app.get('/signup', (req, res) => {
+app.get('/signup', checkNotAuthenticated, (req, res) => {
     res.render('signup')
 })
 
