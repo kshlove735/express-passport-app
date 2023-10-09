@@ -1,6 +1,7 @@
 const express = require('express');
 const usersRouter = express.Router();
 const passport = require('passport');
+const sendMail = require('../mail/mail');
 const User = require('../models/users.model');
 
 usersRouter.post('/login', (req, res, next) => {
@@ -32,6 +33,8 @@ usersRouter.post('/signup', async (req, res) => {
     try {
         // user 컬랙션에 유저를 저장
         await user.save();
+        // 이메일 보내기
+        sendMail('kshlove735@naver.com', '김승현', 'welcome')
         res.redirect('/login');
     } catch (error) {
         console.error(error);
