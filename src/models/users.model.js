@@ -17,7 +17,12 @@ const userSchema = mongoose.Schema({
         type: String,
         unique: true,
         sparse: true    // unique 속성을 유지하면서 null에 대한 중복은 허용
-    }
+    },
+    kakaoId: {
+        type: String,
+        unique: true,
+        sparse: true    // unique 속성을 유지하면서 null에 대한 중복은 허용
+    },
 })
 
 userSchema.pre('save', function (next) {

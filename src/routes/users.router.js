@@ -48,4 +48,10 @@ usersRouter.get('/google/callback', passport.authenticate('google', {
     failureRedirect: '/login',
 }));
 
+usersRouter.get('/kakao', passport.authenticate('kakao'));
+usersRouter.get('/kakao/callback', passport.authenticate('kakao', {
+    successReturnToOrRedirect: '/',
+    failureRedirect: '/login',
+}));
+
 module.exports = usersRouter;
